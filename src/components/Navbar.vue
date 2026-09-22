@@ -1,12 +1,18 @@
 <template>
   <header class="navbar" :class="{ scrolled: isScrolled }">
     <div class="container nav-wrap">
-      <a href="#home" class="logo" @click="closeMenu">
+      <a href="#" class="logo" @click.prevent="go('home')">
         <span class="logo-zi">ZI</span>
       </a>
 
       <nav class="nav-links" :class="{ open: menuOpen }">
-        <a v-for="link in links" :key="link.id" :href="`#${link.id}`" @click="closeMenu">
+        <a
+          v-for="link in links"
+          :key="link.id"
+          href="#"
+          :class="{ active: activeSection === link.id }"
+          @click.prevent="go(link.id)"
+        >
           {{ link.label }}
         </a>
         <a href="/Zahoor-Illahi-CV.pdf" download class="btn btn-primary cv-btn">
@@ -24,6 +30,11 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const props = defineProps({
+  activeSection: { type: String, default: 'home' },
+})
+const emit = defineEmits(['navigate'])
+
 const isScrolled = ref(false)
 const menuOpen = ref(false)
 
@@ -40,8 +51,12 @@ const links = [
   { id: 'contact', label: 'Contact' },
 ]
 
+const go = (id) => {
+  emit('navigate', id)
+  menuOpen.value = false
+}
+
 const handleScroll = () => { isScrolled.value = window.scrollY > 50 }
-const closeMenu = () => { menuOpen.value = false }
 
 onMounted(() => window.addEventListener('scroll', handleScroll))
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
@@ -63,7 +78,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 }
 .nav-wrap { display: flex; justify-content: space-between; align-items: center; }
 
-/* ---- LOGO: sirf ZI ---- */
 .logo {
   display: inline-flex;
   align-items: center;
@@ -73,7 +87,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 .logo:hover { transform: scale(1.08); }
 
 .logo-zi {
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   font-weight: 900;
   font-family: var(--mono);
   letter-spacing: 0.08em;
@@ -81,10 +95,9 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.35));
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.4));
 }
 
-/* ---- NAV LINKS ---- */
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
 .nav-links a:not(.cv-btn) {
   font-size: 0.9rem;
@@ -92,6 +105,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   color: var(--text-muted);
   transition: color 0.2s ease;
   position: relative;
+  cursor: pointer;
 }
 .nav-links a:not(.cv-btn)::after {
   content: '';
@@ -103,6 +117,12 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 }
 .nav-links a:not(.cv-btn):hover { color: var(--primary); }
 .nav-links a:not(.cv-btn):hover::after { width: 100%; }
+
+.nav-links a.active {
+  color: var(--primary) !important;
+}
+.nav-links a.active::after { width: 100%; }
+
 .cv-btn { padding: 0.55rem 1.2rem; font-size: 0.85rem; }
 .hamburger {
   display: none;
