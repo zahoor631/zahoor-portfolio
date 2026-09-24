@@ -6,3 +6,8 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 *.log
+
+/*
+git add .
+git commit -m "kuch message"
+git push */

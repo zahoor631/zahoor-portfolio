@@ -2,18 +2,16 @@
   <Navbar :activeSection="activeSection" @navigate="changeSection" />
 
   <main>
-    <Transition name="section-fade" mode="out-in">
-      <Hero v-if="activeSection === 'home'" key="home" />
-      <About v-else-if="activeSection === 'about'" key="about" />
-      <Skills v-else-if="activeSection === 'skills'" key="skills" />
-      <Experience v-else-if="activeSection === 'experience'" key="experience" />
-      <Education v-else-if="activeSection === 'education'" key="education" />
-      <Projects v-else-if="activeSection === 'projects'" key="projects" />
-      <NetworkingLabs v-else-if="activeSection === 'labs'" key="labs" />
-      <Certifications v-else-if="activeSection === 'certifications'" key="certifications" />
-      <Training v-else-if="activeSection === 'training'" key="training" />
-      <Contact v-else-if="activeSection === 'contact'" key="contact" />
-    </Transition>
+    <Hero v-if="activeSection === 'home'" @navigate="changeSection" />
+    <About v-else-if="activeSection === 'about'" />
+    <Skills v-else-if="activeSection === 'skills'" />
+    <Experience v-else-if="activeSection === 'experience'" />
+    <Education v-else-if="activeSection === 'education'" />
+    <Projects v-else-if="activeSection === 'projects'" />
+    <NetworkingLabs v-else-if="activeSection === 'labs'" />
+    <Certifications v-else-if="activeSection === 'certifications'" />
+    <Training v-else-if="activeSection === 'training'" />
+    <Contact v-else-if="activeSection === 'contact'" />
   </main>
 
   <Footer @navigate="changeSection" />
@@ -36,61 +34,35 @@ import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
 import AIChat from './components/AIChat.vue'
 
-// Home default
 const activeSection = ref('home')
 
 const changeSection = (section) => {
   activeSection.value = section
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  window.scrollTo({ top: 0, behavior: 'instant' })
 }
 
-// Har section change pe fade-in apply
-watch(activeSection, async () => {
+const applyFadeIn = async () => {
   await nextTick()
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-  document.querySelectorAll('.fade-in').forEach((el) => {
-    el.classList.remove('visible')
-    observer.observe(el)
-  })
-})
+  setTimeout(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+    document.querySelectorAll('.fade-in').forEach((el) => {
+      el.classList.remove('visible')
+      observer.observe(el)
+      setTimeout(() => el.classList.add('visible'), 50)
+    })
+  }, 100)
+}
 
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-  document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el))
-})
+watch(activeSection, applyFadeIn)
+
+onMounted(applyFadeIn)
 </script>
-
-<style>
-.section-fade-enter-active,
-.section-fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.section-fade-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.section-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-</style>

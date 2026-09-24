@@ -36,47 +36,39 @@
 </template>
 
 <script setup>
+// ============================================================
+// SIRF ASLI PROJECTS (jo GitHub pe hain)
+// ============================================================
+
 const projects = [
   {
-    title: 'Small Office Network Design',
-    desc: 'Designed and simulated a complete small-office network with VLANs, inter-VLAN routing, DHCP, and OSPF in Cisco Packet Tracer.',
+    title: 'NOMS — Network Operations & Monitoring System',
+    desc: 'A comprehensive system for real-time monitoring, managing, and reporting on network devices, traffic, and incidents. Streamlines network administration with alerts, dashboards, and logs.',
     icon: 'fa-solid fa-network-wired',
-    tech: ['Cisco', 'VLANs', 'OSPF', 'Packet Tracer'],
-    github: '#',
+    tech: ['Python', 'SNMP', 'Flask', 'MySQL'],
+    github: 'https://github.com/zahoor631/NOMS',
   },
   {
-    title: 'IT Helpdesk Ticketing System',
-    desc: 'Built a lightweight web-based ticketing system for tracking IT support requests with priority levels and status updates.',
-    icon: 'fa-solid fa-ticket',
-    tech: ['Vue.js', 'Node.js', 'SQLite'],
-    github: '#',
+    title: 'Dental Patient Manager',
+    desc: 'A desktop application designed for dental/medical practices to manage patient records, appointments, and practice operations efficiently.',
+    icon: 'fa-solid fa-tooth',
+    tech: ['Python', 'Tkinter', 'SQLite'],
+    github: 'https://github.com/zahoor631/dental-patient-manager',
   },
   {
-    title: 'Home Lab — Windows Server & AD',
-    desc: 'Configured a Windows Server home lab with Active Directory, DNS, DHCP, Group Policy, and client domain joining.',
-    icon: 'fa-solid fa-server',
-    tech: ['Windows Server', 'Active Directory', 'DNS'],
-    github: '#',
+    title: 'Academic Pages Portfolio',
+    desc: 'Personal academic portfolio website built with Jekyll and hosted on GitHub Pages. Showcases research, publications, and professional background.',
+    icon: 'fa-solid fa-graduation-cap',
+    tech: ['Jekyll', 'GitHub Pages', 'Markdown', 'HTML'],
+    github: 'https://github.com/zahoor631/academicpages.github.io',
   },
   {
-    title: 'Network Monitoring Dashboard',
-    desc: 'Created a lightweight dashboard to monitor network device uptime and latency using Python and SNMP.',
-    icon: 'fa-solid fa-chart-line',
-    tech: ['Python', 'SNMP', 'Flask'],
-    github: '#',
-  },
-  {
-    title: 'CCTV & Access Control Setup',
-    desc: 'Deployed IP camera surveillance and access control system for a small business, including remote viewing configuration.',
-    icon: 'fa-solid fa-video',
-    tech: ['IP Cameras', 'NVR', 'Networking'],
-  },
-  {
-    title: 'Linux File Server',
-    desc: 'Set up an Ubuntu-based file server with Samba sharing, user permissions, and automated backups.',
-    icon: 'fa-brands fa-linux',
-    tech: ['Ubuntu', 'Samba', 'Bash'],
-    github: '#',
+    title: 'Portfolio Website (This Site)',
+    desc: 'A modern, responsive personal portfolio built with Vue 3 and Vite, featuring dark theme, smooth animations, and AI chatbot integration. Deployed on Netlify.',
+    icon: 'fa-solid fa-globe',
+    tech: ['Vue 3', 'Vite', 'CSS', 'Netlify'],
+    github: 'https://github.com/zahoor631/zahoor-portfolio',
+    demo: 'https://zahoor-illahi.netlify.app',
   },
 ]
 </script>

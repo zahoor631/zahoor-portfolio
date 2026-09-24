@@ -17,7 +17,10 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">
+          <a href="#" class="btn btn-primary" @click.prevent="goToProjects">
+            <i class="fa-solid fa-rocket"></i> View Projects
+          </a>
+          <a href="#" class="btn btn-outline" @click.prevent="goToContact">
             <i class="fa-solid fa-paper-plane"></i> Get in Touch
           </a>
           <a href="/Zahoor-Illahi-CV.pdf" download class="btn btn-outline">
@@ -27,12 +30,12 @@
 
         <div class="hero-socials">
           <a href="https://github.com/zahoor631" target="_blank" aria-label="GitHub">
-  <i class="fa-brands fa-github"></i>
-</a>
-          <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/engr-zahoor-illahi-043453242" target="_blank" aria-label="LinkedIn">
             <i class="fa-brands fa-linkedin-in"></i>
           </a>
-          <a href="mailto:zahoor@example.com" aria-label="Email">
+          <a href="mailto:zahoorillahi117@gmail.com" aria-label="Email">
             <i class="fa-solid fa-envelope"></i>
           </a>
         </div>
@@ -48,17 +51,17 @@
         </div>
 
         <div class="floating-card card-1">
-  <i class="fa-solid fa-network-wired"></i>
-  <span>Network Engineer</span>
-</div>
+          <i class="fa-solid fa-network-wired"></i>
+          <span>Network Engineer</span>
+        </div>
 
-<div class="floating-card card-2">
-  <i class="fa-solid fa-shield-halved"></i>
-  <span>
-    PEC Registered<br>
-    <small>Reg. No: 028399</small>
-  </span>
-</div>
+        <div class="floating-card card-2">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>
+            PEC Registered<br>
+            <small>Reg. No: 028399</small>
+          </span>
+        </div>
       </div>
     </div>
   </section>
@@ -66,6 +69,16 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+
+const emit = defineEmits(['navigate'])
+
+const goToProjects = () => {
+  emit('navigate', 'projects')
+}
+
+const goToContact = () => {
+  emit('navigate', 'contact')
+}
 
 const roles = [
   'IT Support Specialist',
@@ -247,6 +260,7 @@ onUnmounted(() => clearTimeout(timer))
   animation: float 4s ease-in-out infinite;
 }
 .floating-card i { color: var(--primary); }
+.floating-card small { font-size: 0.72rem; opacity: 0.7; font-weight: 500; }
 .card-1 { top: 10%; left: -5%; }
 .card-2 { bottom: 10%; right: -5%; animation-delay: 2s; }
 @keyframes float {
