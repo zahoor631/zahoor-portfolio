@@ -10,9 +10,12 @@
         <div
           v-for="(edu, i) in educations"
           :key="i"
-          class="edu-card card fade-in"
+          class="edu-card card fade-in tilt-card"
           :style="{ transitionDelay: `${i * 0.1}s` }"
+          @mousemove="tilt"
+          @mouseleave="resetTilt"
         >
+          <div class="card-shine"></div>
           <div class="edu-icon"><i :class="edu.icon"></i></div>
           <span class="edu-period">{{ edu.period }}</span>
           <h3>{{ edu.degree }}</h3>
@@ -35,6 +38,8 @@
 </template>
 
 <script setup>
+import { tilt, resetTilt } from '../utils/tilt.js'
+
 const educations = [
   {
     icon: 'fa-solid fa-graduation-cap',
@@ -68,6 +73,7 @@ const educations = [
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+  perspective: 1200px;
 }
 
 .edu-card {
@@ -88,6 +94,12 @@ const educations = [
   border-radius: 16px;
   font-size: 1.6rem;
   color: var(--primary);
+  transition: all 0.4s ease;
+}
+
+.edu-card:hover .edu-icon {
+  transform: scale(1.15) rotate(-8deg);
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
 }
 
 .edu-period {
@@ -123,7 +135,6 @@ const educations = [
   flex: 1;
 }
 
-/* === View Degree Button === */
 .edu-cert-btn {
   display: inline-flex;
   align-items: center;

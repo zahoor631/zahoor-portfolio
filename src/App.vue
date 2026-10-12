@@ -1,4 +1,6 @@
 <template>
+  <Globe3D />
+
   <Navbar :activeSection="activeSection" @navigate="changeSection" />
 
   <main>
@@ -8,7 +10,6 @@
     <Experience v-else-if="activeSection === 'experience'" />
     <Education v-else-if="activeSection === 'education'" />
     <Projects v-else-if="activeSection === 'projects'" />
-    <NetworkingLabs v-else-if="activeSection === 'labs'" />
     <Certifications v-else-if="activeSection === 'certifications'" />
     <Training v-else-if="activeSection === 'training'" />
     <Contact v-else-if="activeSection === 'contact'" />
@@ -20,6 +21,7 @@
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
+import Globe3D from './components/Globe3D.vue'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
 import About from './components/About.vue'
@@ -27,7 +29,6 @@ import Skills from './components/Skills.vue'
 import Experience from './components/Experience.vue'
 import Education from './components/Education.vue'
 import Projects from './components/Projects.vue'
-import NetworkingLabs from './components/NetworkingLabs.vue'
 import Certifications from './components/Certifications.vue'
 import Training from './components/Training.vue'
 import Contact from './components/Contact.vue'

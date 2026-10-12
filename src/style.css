@@ -1,3 +1,23 @@
+/* ===== 3D Globe Setup ===== */
+#app {
+  position: relative;
+  z-index: 10;
+  /* ← text hamesha globe ke upar rahe */
+}
+
+canvas.globe-canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0 !important;
+  pointer-events: none;
+  opacity: 0.5;
+  /* ← globe ko thoda halka kiya */
+}
+
+/* ===== CSS Variables ===== */
 :root {
   --bg: #0a0e1a;
   --bg-alt: #111827;
@@ -15,6 +35,7 @@
   --mono: 'JetBrains Mono', monospace;
 }
 
+/* ===== Reset ===== */
 * {
   margin: 0;
   padding: 0;
@@ -26,14 +47,23 @@ html {
   scroll-padding-top: 80px;
 }
 
+html,
 body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
+body {
+  font-family: var(--font);
+  background: radial-gradient(circle at center, #0a0e1a 0%, #000000 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ===== Links & Images ===== */
 a {
   color: inherit;
   text-decoration: none;
@@ -44,6 +74,7 @@ img {
   display: block;
 }
 
+/* ===== Layout ===== */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -55,6 +86,7 @@ section {
   position: relative;
 }
 
+/* ===== Typography ===== */
 .section-title {
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
@@ -78,6 +110,7 @@ section {
   color: var(--primary);
 }
 
+/* ===== Buttons ===== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -115,6 +148,7 @@ section {
   transform: translateY(-2px);
 }
 
+/* ===== Cards ===== */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -129,8 +163,9 @@ section {
   box-shadow: var(--shadow);
 }
 
+/* ===== Fade-in Animation ===== */
 .fade-in {
-  opacity: 1;
+  opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
@@ -140,11 +175,61 @@ section {
   transform: translateY(0);
 }
 
+/* ===== GLOBAL 3D TILT EFFECT ===== */
+.tilt-card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.tilt-card:hover {
+  border-color: var(--primary);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 212, 255, 0.35),
+    0 0 30px rgba(0, 212, 255, 0.15),
+    inset 0 0 20px rgba(0, 212, 255, 0.05);
+}
+
+/* Dynamic Shine (follows mouse) */
+.tilt-card .card-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(0, 212, 255, 0.25) 0%,
+      rgba(0, 212, 255, 0.08) 30%,
+      transparent 60%);
+  z-index: 1;
+}
+
+.tilt-card:hover .card-shine {
+  opacity: 1;
+}
+
+.tilt-card>*:not(.card-shine) {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== Mobile ===== */
 @media (max-width: 768px) {
   section {
     padding: 4rem 0;
   }
+
   .container {
     padding: 0 1.25rem;
+  }
+
+  .tilt-card:hover {
+    transform: none !important;
   }
 }

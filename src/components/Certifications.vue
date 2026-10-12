@@ -13,9 +13,12 @@
           :href="cert.file"
           target="_blank"
           rel="noopener noreferrer"
-          class="cert-card card fade-in"
+          class="cert-card card fade-in tilt-card"
           :style="{ transitionDelay: `${i * 0.1}s` }"
+          @mousemove="tilt"
+          @mouseleave="resetTilt"
         >
+          <div class="card-shine"></div>
           <div class="cert-icon">
             <i class="fa-solid fa-award"></i>
           </div>
@@ -32,6 +35,8 @@
 </template>
 
 <script setup>
+import { tilt, resetTilt } from '../utils/tilt.js'
+
 const certs = [
   {
     name: 'Network Technician Career Path',
@@ -81,6 +86,7 @@ const certs = [
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  perspective: 1200px;
 }
 
 .cert-card {
@@ -104,6 +110,12 @@ const certs = [
   border-radius: 50%;
   font-size: 1.5rem;
   color: var(--primary);
+  transition: all 0.4s ease;
+}
+
+.cert-card:hover .cert-icon {
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
 }
 
 .cert-card h3 {
@@ -138,7 +150,5 @@ const certs = [
   margin-top: auto;
 }
 
-.cert-card:hover .cert-view {
-  color: var(--primary);
-}
+.cert-card:hover .cert-view { color: var(--primary); }
 </style>

@@ -15,7 +15,7 @@
         >
           {{ link.label }}
         </a>
-        <a href="/Zahoor-Illahi-CV.pdf" download class="btn btn-primary cv-btn">
+       <a href="/Zahoor_Illahi_CV.pdf" download class="btn btn-primary cv-btn">
           <i class="fa-solid fa-download"></i> Resume
         </a>
       </nav>
@@ -45,7 +45,6 @@ const links = [
   { id: 'experience', label: 'Experience' },
   { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
-  { id: 'labs', label: 'Labs' },
   { id: 'certifications', label: 'Certifications' },
   { id: 'training', label: 'Training' },
   { id: 'contact', label: 'Contact' },

@@ -10,9 +10,12 @@
         <div
           v-for="(item, i) in trainings"
           :key="i"
-          class="training-item fade-in"
+          class="training-item fade-in tilt-card"
           :style="{ transitionDelay: `${i * 0.08}s` }"
+          @mousemove="tilt"
+          @mouseleave="resetTilt"
         >
+          <div class="card-shine"></div>
           <div class="training-icon"><i :class="item.icon"></i></div>
           <div class="training-content">
             <div class="training-header">
@@ -31,13 +34,15 @@
 </template>
 
 <script setup>
+import { tilt, resetTilt } from '../utils/tilt.js'
+
 const trainings = [
   {
     icon: 'fa-solid fa-id-card',
-  title: 'PEC Registered Engineer Training',
-  provider: 'Pakistan Engineering Council (PEC)',
-  year: '2026',
-  desc: 'Registered as a professional engineer with the Pakistan Engineering Council. Completed all required training and ethical standards.',
+    title: 'PEC Registered Engineer Training',
+    provider: 'Pakistan Engineering Council (PEC)',
+    year: '2026',
+    desc: 'Registered as a professional engineer with the Pakistan Engineering Council. Completed all required training and ethical standards.',
   },
   {
     icon: 'fa-brands fa-windows',
@@ -46,13 +51,6 @@ const trainings = [
     year: '2024',
     desc: 'Training on AD DS, DNS, DHCP, Group Policy, and managing Windows Server roles.',
   },
- /* {
-    icon: 'fa-brands fa-linux',
-    title: 'Linux Command Line Essentials',
-    provider: 'Linux Foundation',
-    year: '2024',
-    desc: 'Mastered Linux file system navigation, permissions, package management, and shell scripting basics.',
-  },*/
   {
     icon: 'fa-solid fa-lock',
     title: 'Network Security & Firewalls',
@@ -60,7 +58,7 @@ const trainings = [
     year: '2024',
     desc: 'Configured firewalls, VPNs, and ACLs; explored IDS/IPS concepts and secure network design.',
   },
-    {
+  {
     icon: 'fa-brands fa-google',
     title: 'Google IT Support Professional',
     provider: 'Coursera',
@@ -78,7 +76,13 @@ const trainings = [
 </script>
 
 <style scoped>
-.training-list { display: flex; flex-direction: column; gap: 1.25rem; }
+.training-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  perspective: 1200px;
+}
+
 .training-item {
   display: flex;
   gap: 1.5rem;
@@ -86,20 +90,28 @@ const trainings = [
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem 1.75rem;
-  transition: all 0.25s ease;
 }
-.training-item:hover { border-color: var(--primary); transform: translateX(8px); }
+
 .training-icon {
   flex-shrink: 0;
-  width: 50px; height: 50px;
+  width: 50px;
+  height: 50px;
   display: grid;
   place-items: center;
   background: rgba(0, 212, 255, 0.1);
   color: var(--primary);
   border-radius: 10px;
   font-size: 1.25rem;
+  transition: all 0.4s ease;
 }
+
+.training-item:hover .training-icon {
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+}
+
 .training-content { flex: 1; }
+
 .training-header {
   display: flex;
   justify-content: space-between;
@@ -108,7 +120,9 @@ const trainings = [
   margin-bottom: 0.4rem;
   flex-wrap: wrap;
 }
+
 .training-header h3 { font-size: 1.05rem; font-weight: 700; }
+
 .training-year {
   font-family: var(--mono);
   font-size: 0.78rem;
@@ -117,8 +131,10 @@ const trainings = [
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
 }
+
 .training-provider { font-size: 0.85rem; color: var(--primary); margin-bottom: 0.5rem; }
 .training-desc { font-size: 0.9rem; color: var(--text-muted); }
+
 @media (max-width: 600px) {
   .training-item { flex-direction: column; gap: 1rem; }
 }

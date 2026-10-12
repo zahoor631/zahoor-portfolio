@@ -14,7 +14,12 @@
           :style="{ transitionDelay: `${i * 0.1}s` }"
         >
           <div class="timeline-dot"></div>
-          <div class="timeline-content card">
+          <div
+            class="timeline-content card tilt-card"
+            @mousemove="tilt"
+            @mouseleave="resetTilt"
+          >
+            <div class="card-shine"></div>
             <div class="job-header">
               <div>
                 <h3>{{ job.role }}</h3>
@@ -36,6 +41,8 @@
 </template>
 
 <script setup>
+import { tilt, resetTilt } from '../utils/tilt.js'
+
 const experiences = [
   {
     role: 'IT Support Engineer',
@@ -77,7 +84,7 @@ const experiences = [
 
 <style scoped>
 .experience { background: var(--bg-alt); }
-.timeline { position: relative; padding-left: 2rem; }
+.timeline { position: relative; padding-left: 2rem; perspective: 1200px; }
 .timeline::before {
   content: '';
   position: absolute;

@@ -14,10 +14,13 @@
           :href="project.demo || project.github || undefined"
           :target="project.demo || project.github ? '_blank' : undefined"
           :rel="project.demo || project.github ? 'noopener noreferrer' : undefined"
-          class="project-card card fade-in"
+          class="project-card card fade-in tilt-card"
           :class="{ clickable: project.github || project.demo }"
           :style="{ transitionDelay: `${i * 0.1}s` }"
+          @mousemove="tilt"
+          @mouseleave="resetTilt"
         >
+          <div class="card-shine"></div>
           <div class="project-top">
             <div class="project-icon"><i :class="project.icon"></i></div>
             <div class="project-links">
@@ -55,6 +58,8 @@
 </template>
 
 <script setup>
+import { tilt, resetTilt } from '../utils/tilt.js'
+
 const projects = [
   {
     title: 'NOMS — Network Operations & Monitoring System',
@@ -94,33 +99,19 @@ const projects = [
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+  perspective: 1200px;
 }
 
-/* Project Card */
 .project-card {
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s ease;
+  position: relative;
 }
 
-/* Clickable card */
-.project-card.clickable {
-  cursor: pointer;
-}
+.project-card.clickable { cursor: pointer; }
 
-.project-card.clickable:hover {
-  border-color: var(--primary);
-  transform: translateY(-6px);
-  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15);
-}
-
-.project-card.clickable:hover h3 {
-  color: var(--primary);
-}
-
-/* Clickable card — show a hint */
 .project-card.clickable::after {
   content: 'Click to view →';
   position: absolute;
@@ -133,16 +124,12 @@ const projects = [
   transition: all 0.3s ease;
   font-family: var(--mono);
   pointer-events: none;
+  z-index: 3;
 }
 
 .project-card.clickable:hover::after {
   opacity: 1;
   transform: translateX(0);
-}
-
-/* Make sure the card is relative */
-.project-card {
-  position: relative;
 }
 
 .project-top {
@@ -182,9 +169,7 @@ const projects = [
   position: relative;
 }
 
-.project-links a:hover {
-  color: var(--primary);
-}
+.project-links a:hover { color: var(--primary); }
 
 .project-card h3 {
   font-size: 1.15rem;
@@ -192,6 +177,8 @@ const projects = [
   margin-bottom: 0.75rem;
   transition: color 0.25s ease;
 }
+
+.project-card.clickable:hover h3 { color: var(--primary); }
 
 .project-card p {
   color: var(--text-muted);
