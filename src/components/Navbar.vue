@@ -15,7 +15,7 @@
         >
           {{ link.label }}
         </a>
-       <a href="/Zahoor_Illahi_CV.pdf" download class="btn btn-primary cv-btn">
+      <a href="/Zahoor_Illahi-CV.pdf" download class="btn btn-primary cv-btn">
           <i class="fa-solid fa-download"></i> Resume
         </a>
       </nav>
