@@ -5,9 +5,9 @@
         <h2 class="section-title">About <span>Me</span></h2>
         <p class="section-subtitle">who am i</p>
       </div>
+
       <div class="about-grid fade-in">
         <div class="about-text">
-          <!-- === NEW: Availability Badge === -->
           <div class="availability-badge">
             <span class="pulse-dot"></span>
             <span>Available for Full-time & Freelance Opportunities</span>
@@ -42,14 +42,18 @@
 
           <div class="about-stats">
             <div
-              v-for="stat in stats"
+              v-for="(stat, i) in stats"
               :key="stat.label"
               class="stat tilt-card"
+              :style="{ transitionDelay: `${i * 0.1}s` }"
               @mousemove="tilt"
               @mouseleave="resetTilt"
             >
               <div class="card-shine"></div>
-              <span class="stat-num">{{ stat.value }}</span>
+              <span
+                class="stat-num"
+                :data-target="stat.value"
+              >{{ stat.value }}</span>
               <span class="stat-label">{{ stat.label }}</span>
             </div>
           </div>
@@ -79,14 +83,14 @@
 </template>
 
 <script setup>
-import { tilt, resetTilt } from '../utils/tilt.js'
+import { tilt, resetTilt } from '../utils/tilt.js';
 
 const stats = [
-  { value: '4', label: 'Internships' },
-  { value: '6', label: 'Certifications' },
-  { value: '2.75', label: 'CGPA' },
-  { value: 'PEC', label: 'Registered' },
-]
+  { value: 4, label: 'Internships' },
+  { value: 6, label: 'Certifications' },
+  { value: 2.75, label: 'CGPA' },
+  { value: 'PEC', label: 'Registered', isText: true },
+];
 
 const aboutInfo = [
   { icon: 'fa-solid fa-user', label: 'Name', value: 'Zahoor Illahi' },
@@ -96,7 +100,7 @@ const aboutInfo = [
   { icon: 'fa-solid fa-id-card', label: 'PEC Registered', value: 'Reg. No: 028399' },
   { icon: 'fa-solid fa-graduation-cap', label: 'CGPA', value: '2.75 / 4.00 — BE Computer Systems' },
   { icon: 'fa-solid fa-circle-check', label: 'Availability', value: 'Open to Work', available: true },
-]
+];
 </script>
 
 <style scoped>
@@ -110,7 +114,7 @@ const aboutInfo = [
   perspective: 1200px;
 }
 
-/* === NEW: Availability Badge === */
+/* === Availability Badge === */
 .availability-badge {
   display: inline-flex;
   align-items: center;
@@ -142,6 +146,7 @@ const aboutInfo = [
   50% { transform: scale(1.4); opacity: 0.6; }
 }
 
+/* === About Text === */
 .about-text p {
   color: var(--text-muted);
   margin-bottom: 1.2rem;
@@ -151,6 +156,7 @@ const aboutInfo = [
 
 .about-text strong { color: var(--primary); font-weight: 600; }
 
+/* === Stats === */
 .about-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -183,6 +189,7 @@ const aboutInfo = [
   color: var(--text-muted);
 }
 
+/* === Info Cards === */
 .about-info {
   display: flex;
   flex-direction: column;
@@ -231,9 +238,15 @@ const aboutInfo = [
 
 .available { color: var(--success); }
 
+/* === Responsive === */
 @media (max-width: 900px) {
-  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .about-stats { grid-template-columns: repeat(2, 1fr); }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .availability-badge {
     font-size: 0.8rem;
     padding: 0.5rem 1rem;

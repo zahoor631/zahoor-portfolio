@@ -1,8 +1,8 @@
 <template>
-  <header class="navbar" :class="{ scrolled: isScrolled }">
-    <div class="container nav-wrap">
-      <a href="#" class="logo" @click.prevent="go('home')">
-        <span class="logo-zi">ZI</span>
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo" @click.prevent="goHome">
+        <span class="logo-mark">ZI</span>
       </a>
 
       <nav class="nav-links" :class="{ open: menuOpen }">
@@ -11,31 +11,40 @@
           :key="link.id"
           href="#"
           :class="{ active: activeSection === link.id }"
-          @click.prevent="go(link.id)"
+          @click.prevent="navigate(link.id)"
         >
           {{ link.label }}
         </a>
-      <a href="/Zahoor_Illahi-CV.pdf" download class="btn btn-primary cv-btn">
-          <i class="fa-solid fa-download"></i> Resume
-        </a>
       </nav>
 
-      <button class="hamburger" @click="menuOpen = !menuOpen" aria-label="Menu">
-        <i :class="menuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+      <a
+        href="/Zahoor-Illahi-CV.pdf"
+        download
+        class="btn btn-primary resume-btn"
+      >
+        <i class="fa-solid fa-download"></i>
+        Resume
+      </a>
+
+      <button class="menu-btn" @click="menuOpen = !menuOpen" aria-label="Menu">
+        <i :class="menuOpen ? 'fa-solid fa-times' : 'fa-solid fa-bars'"></i>
       </button>
     </div>
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
-  activeSection: { type: String, default: 'home' },
+  activeSection: {
+    type: String,
+    default: 'home',
+  },
 })
+
 const emit = defineEmits(['navigate'])
 
-const isScrolled = ref(false)
 const menuOpen = ref(false)
 
 const links = [
@@ -45,108 +54,167 @@ const links = [
   { id: 'experience', label: 'Experience' },
   { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
+  { id: 'labs', label: 'Labs' },
+  { id: 'noms', label: 'NOMS' },
   { id: 'certifications', label: 'Certifications' },
   { id: 'training', label: 'Training' },
   { id: 'contact', label: 'Contact' },
 ]
 
-const go = (id) => {
+const navigate = (id) => {
   emit('navigate', id)
   menuOpen.value = false
 }
 
-const handleScroll = () => { isScrolled.value = window.scrollY > 50 }
-
-onMounted(() => window.addEventListener('scroll', handleScroll))
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+const goHome = () => {
+  emit('navigate', 'home')
+  menuOpen.value = false
+}
 </script>
 
 <style scoped>
 .navbar {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
-  padding: 1rem 0;
-  transition: all 0.3s ease;
-}
-.navbar.scrolled {
   background: rgba(10, 14, 26, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0.6rem 0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+  padding: 1rem 0;
 }
-.nav-wrap { display: flex; justify-content: space-between; align-items: center; }
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
 
 .logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   text-decoration: none;
-  transition: transform 0.25s ease;
+  flex-shrink: 0;
 }
-.logo:hover { transform: scale(1.08); }
 
-.logo-zi {
-  font-size: 1.9rem;
+.logo-mark {
+  font-size: 1.5rem;
   font-weight: 900;
-  font-family: var(--mono);
-  letter-spacing: 0.08em;
-  background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.4));
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
 }
 
-.nav-links { display: flex; align-items: center; gap: 1.5rem; }
-.nav-links a:not(.cv-btn) {
-  font-size: 0.9rem;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-links a {
+  color: var(--text-muted, #8b95a8);
+  font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-muted);
-  transition: color 0.2s ease;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: color 0.25s ease;
   position: relative;
-  cursor: pointer;
+  white-space: nowrap;
 }
-.nav-links a:not(.cv-btn)::after {
-  content: '';
-  position: absolute;
-  bottom: -6px; left: 0;
-  width: 0; height: 2px;
-  background: var(--primary);
-  transition: width 0.25s ease;
+
+.nav-links a:hover {
+  color: #00d4ff;
 }
-.nav-links a:not(.cv-btn):hover { color: var(--primary); }
-.nav-links a:not(.cv-btn):hover::after { width: 100%; }
 
 .nav-links a.active {
-  color: var(--primary) !important;
+  color: #00d4ff;
 }
-.nav-links a.active::after { width: 100%; }
 
-.cv-btn { padding: 0.55rem 1.2rem; font-size: 0.85rem; }
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--text);
-  font-size: 1.5rem;
-  cursor: pointer;
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: #00d4ff;
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
 }
-@media (max-width: 992px) {
-  .hamburger { display: block; }
+
+.resume-btn {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.25rem;
+}
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: #00d4ff;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .nav-links { gap: 0.9rem; }
+  .nav-links a { font-size: 0.78rem; }
+}
+
+@media (max-width: 900px) {
+  .menu-btn {
+    display: flex;
+  }
+
   .nav-links {
     position: fixed;
-    top: 0; right: -100%;
-    width: 75%;
-    max-width: 320px;
-    height: 100vh;
-    background: var(--bg-alt);
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: rgba(10, 14, 26, 0.98);
+    backdrop-filter: blur(20px);
     flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-    transition: right 0.35s ease;
-    border-left: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    gap: 1.25rem;
+    transform: translateY(-150%);
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
   }
-  .nav-links.open { right: 0; }
-  .nav-links a { font-size: 1.1rem; }
+
+  .nav-links.open {
+    transform: translateY(0);
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 0;
+  }
+
+  .nav-links a.active::after {
+    display: none;
+  }
+
+  .nav-links a.active {
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+  }
 }
 </style>
